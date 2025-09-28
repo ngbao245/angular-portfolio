@@ -10,11 +10,8 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 @Component({
   selector: 'app-three-scene',
   standalone: true,
-  template: `<canvas id="bg"></canvas>`,
-  styles: [`
-    :host { display:block; height:100vh; }
-    canvas#bg { width:100%; height:100%; display:block; }
-  `]
+  templateUrl: './three-scene.component.html',
+  styleUrls: ['./three-scene.component.scss'],
 })
 export class ThreeSceneComponent implements AfterViewInit {
   constructor(
@@ -31,7 +28,7 @@ export class ThreeSceneComponent implements AfterViewInit {
 
   private initThree() {
     let isDarkMode = true;
-    const canvas = document.querySelector('#bg') as HTMLCanvasElement;
+    const canvas = document.querySelector('#three-screen') as HTMLCanvasElement;
 
     // Scene + Camera
     const scene = new THREE.Scene();

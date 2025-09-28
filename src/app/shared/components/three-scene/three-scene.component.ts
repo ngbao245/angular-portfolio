@@ -7,6 +7,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { FormsModule } from '@angular/forms';
+import { getStoredItem, setStoredItem } from '../../utils/storage.util';
 
 @Component({
   selector: 'app-three-scene',
@@ -40,13 +41,20 @@ export class ThreeSceneComponent implements AfterViewInit {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      // ưu tiên lấy từ localStorage
+      const stored = getStoredItem<boolean>('isDarkMode');
+      if (stored !== null) {
+        this.isDarkMode = stored;
+      } else {
+        // else: lấy theo system theme
+        this.isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setStoredItem('isDarkMode', this.isDarkMode);
+      }
     }
   }
 
   onDarkModeChange(newValue: boolean) {
-    console.log('Dark mode changed:', newValue);
-
+    setStoredItem('isDarkMode', newValue);
     // set target màu + intensity (animate loop sẽ lerp dần)
     this.targetBase = newValue ? this.darkBase : this.lightBase;
     this.targetIntensity = newValue ? 1 : 2;

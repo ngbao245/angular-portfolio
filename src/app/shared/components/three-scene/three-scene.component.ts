@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, NgZone, PLATFORM_ID } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, NgZone, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 import * as THREE from 'three';
@@ -12,6 +12,7 @@ import { getStoredItem, setStoredItem } from '../../utils/storage.util';
 @Component({
   selector: 'app-three-scene',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule],
   templateUrl: './three-scene.component.html',
   styleUrls: ['./three-scene.component.scss'],

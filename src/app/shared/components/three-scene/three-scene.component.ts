@@ -1,13 +1,13 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Inject, NgZone, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
-
+import { AfterViewInit, ChangeDetectionStrategy, Component, DOCUMENT, inject, NgZone } from '@angular/core';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { FormsModule } from '@angular/forms';
-import { getStoredItem, setStoredItem } from '../../utils/storage.util';
+import { ThemeService } from '../../../core/themeService';
+import { BrowserService } from '../../../core/browserService';
+import { Theme } from '../../../core/enum/theme.enum';
 
 @Component({
   selector: 'app-three-scene',
@@ -35,39 +35,33 @@ export class ThreeSceneComponent implements AfterViewInit {
   private currentIntensity = 1;
   private targetIntensity = 1;
 
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-    private ngZone: NgZone
-  ) { }
+  private readonly themeService = inject(ThemeService);
+  private readonly browser = inject(BrowserService);
+  private readonly ngZone = inject(NgZone);
+  private readonly document = inject(DOCUMENT);
 
   ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      // ưu tiên lấy từ localStorage
-      const stored = getStoredItem<boolean>('isDarkMode');
-      if (stored !== null) {
-        this.isDarkMode = stored;
-      } else {
-        // else: lấy theo system theme
-        this.isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        setStoredItem('isDarkMode', this.isDarkMode);
-      }
+    if (!this.browser.isBrowser()) return;
+    if (this.themeService.getCurrentTheme() === 'dark') {
+      this.isDarkMode = true;
     }
   }
 
   onDarkModeChange(newValue: boolean) {
-    setStoredItem('isDarkMode', newValue);
+    this.isDarkMode = newValue;
+    this.themeService.setTheme(newValue ? Theme.DARK : Theme.LIGHT);
     // set target màu + intensity (animate loop sẽ lerp dần)
     this.targetBase = newValue ? this.darkBase : this.lightBase;
     this.targetIntensity = newValue ? 1 : 2;
   }
 
   ngAfterViewInit(): void {
-    if (!isPlatformBrowser(this.platformId)) return;
+    if (!this.browser.isBrowser()) return;
     this.ngZone.runOutsideAngular(() => this.initThree());
   }
 
   private initThree() {
-    const canvas = document.querySelector('#three-screen') as HTMLCanvasElement;
+    const canvas = this.document.querySelector('#three-screen') as HTMLCanvasElement;
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(

@@ -5,7 +5,7 @@ import { HeroComponent } from '../../shared/components/hero/hero.component';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeroComponent],
+  imports: [MainLayoutComponent, HeroComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })

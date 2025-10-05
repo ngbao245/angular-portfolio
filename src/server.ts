@@ -37,7 +37,7 @@ app.use(
 
 // CSR fallback cho /admin/**
 app.use('/admin', (req, res) => {
-  res.sendFile(join(browserDistFolder, 'index.html'));
+  res.sendFile(join(browserDistFolder, 'indexFile.html'));
 });
 
 /**

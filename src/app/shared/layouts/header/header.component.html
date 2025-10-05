@@ -1,7 +1,30 @@
-<header class="w-full bg-gray-800 text-white p-4 flex justify-between">
-  <span class="font-bold">My Portfolio</span>
-  <nav class="space-x-4">
-    <a routerLink="/dashboard" routerLinkActive="font-bold">Dashboard</a>
-    <a routerLink="/users" routerLinkActive="font-bold">Users</a>
-  </nav>
+<header class="navbar bg-base-100 border-b border-base-200 px-4">
+  <div class="flex-1">
+    <a class="text-xl font-bold text-primary">MyPortfolio</a>
+  </div>
+
+  <div class="flex-none hidden md:flex gap-4">
+    <a class="btn btn-ghost">Home</a>
+    <a class="btn btn-ghost">Projects</a>
+    <a class="btn btn-ghost">Contact</a>
+  </div>
+
+  <div class="md:hidden">
+    <label for="sidebar-toggle" class="btn btn-ghost btn-square">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"
+        />
+      </svg>
+    </label>
+  </div>
 </header>

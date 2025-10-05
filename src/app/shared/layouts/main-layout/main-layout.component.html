@@ -1,10 +1,12 @@
-<app-header></app-header>
+<div class="flex flex-col min-h-screen bg-base-100 text-base-content">
+  <!-- HEADER -->
+  <app-header></app-header>
 
-<div class="flex">
-  <app-sidebar></app-sidebar>
-  <main class="flex-1 p-6">
+  <!-- MAIN CONTENT -->
+  <main class="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <router-outlet></router-outlet>
   </main>
-</div>
 
-<app-footer></app-footer>
+  <!-- FOOTER -->
+  <app-footer></app-footer>
+</div>

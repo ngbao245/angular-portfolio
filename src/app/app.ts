@@ -6,8 +6,7 @@ import { TestComponent } from './shared/components/test/test.component';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, ThreeSceneComponent, TestComponent],
-  templateUrl: './app.html',
-  styleUrl: './app.scss'
+  templateUrl: './app.html'
 })
 export class App {
   protected readonly title = signal('portfolio');
